@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:stock_traders/authentication/signup/signup_page.dart';
+import 'package:stock_traders/authentication/login/view/login_page.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class SignupPage extends StatelessWidget {
+  const SignupPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Login with Email and Password",
+          "Signup with Email and Password",
         ),
       ),
       body: Padding(
@@ -41,19 +42,19 @@ class LoginPage extends StatelessWidget {
               margin: const EdgeInsets.symmetric(vertical: 10),
               child: ElevatedButton(
                 onPressed: () {},
-                child: const Text("Log In"),
+                child: const Text("Sign Up"),
               ),
             ),
             TextButton(
               onPressed: () {
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
-                    builder: (context) => SignupPage(),
+                    builder: (context) => LoginPage(),
                   ),
                 );
               },
               child: Text(
-                "Don't have account? Sign Up",
+                "Already have account? Log In",
               ),
             ),
           ],
