@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stock_traders/authentication/signup/signup_page.dart';
+import 'package:stock_traders/authentication/signup/view/signup_page.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
