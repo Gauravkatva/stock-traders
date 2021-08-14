@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:stock_traders/authentication/login/view/login_page.dart';
+import 'package:stock_traders/authentication/services/auth.dart';
 
 class SignupPage extends StatelessWidget {
-  const SignupPage({Key? key}) : super(key: key);
-
+  SignupPage({Key? key}) : super(key: key);
+  final Auth auth = Auth();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Signup with Email and Password",
+          "Signup",
         ),
       ),
       body: Padding(
@@ -21,6 +24,7 @@ class SignupPage extends StatelessWidget {
             Container(
               margin: const EdgeInsets.symmetric(vertical: 10),
               child: TextField(
+                controller: emailController,
                 decoration: InputDecoration(
                   hintText: "Email",
                   border: OutlineInputBorder(),
@@ -31,6 +35,7 @@ class SignupPage extends StatelessWidget {
             Container(
               margin: const EdgeInsets.symmetric(vertical: 10),
               child: TextField(
+                controller: passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
                   hintText: "Password",
@@ -41,7 +46,16 @@ class SignupPage extends StatelessWidget {
             Container(
               margin: const EdgeInsets.symmetric(vertical: 10),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () async {
+                  if (!(emailController.text.isEmpty ||
+                      passwordController.text.isEmpty)) {
+                    final result = await auth.signUp(
+                        emailController.text, passwordController.text);
+                    print(result.runtimeType);
+                  } else {
+                    print("Enter valid values");
+                  }
+                },
                 child: const Text("Sign Up"),
               ),
             ),

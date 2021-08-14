@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "521441706275",
+    "project_id": "stock-traders-455d1",
+    "storage_bucket": "stock-traders-455d1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:521441706275:android:11b2faefc1b62ae1584c96",
+        "android_client_info": {
+          "package_name": "com.example.stock_traders"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "521441706275-5js1n04dbk0jakfua80g7g51tju1duuu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3o0XfcVXeTcXQqIMqXuBvuNsJ24g7Dsc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "521441706275-5js1n04dbk0jakfua80g7g51tju1duuu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
