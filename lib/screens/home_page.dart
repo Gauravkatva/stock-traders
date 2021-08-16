@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
             child: Text(
               "Sign Out",
               style:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
             ),
           )
         ],
