@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stock_traders/app.dart';
 import 'package:stock_traders/authentication/services/auth.dart';
-import 'package:stock_traders/screens/add_stock_form.dart';
+import 'package:stock_traders/screens/add_stock_form/view/add_stock_form.dart';
 import 'package:stock_traders/utils/app_utils.dart';
 
 class HomePage extends StatefulWidget {
