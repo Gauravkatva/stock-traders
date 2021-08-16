@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stock_traders/app.dart';
 import 'package:stock_traders/authentication/services/auth.dart';
+import 'package:stock_traders/screens/add_stock_form.dart';
 import 'package:stock_traders/utils/app_utils.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,7 +17,15 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Stock Traders"),
+        backgroundColor: Colors.white,
+        elevation: 1,
+        title: Text(
+          "Stock Traders",
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         actions: [
           TextButton(
             onPressed: () async {
@@ -37,7 +46,9 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          pushScreen(AddStockForm(), context);
+        },
         child: Icon(Icons.add),
         tooltip: "Add Stocks",
       ),
