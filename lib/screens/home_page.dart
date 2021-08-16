@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stock_traders/app.dart';
 import 'package:stock_traders/authentication/services/auth.dart';
-import 'package:stock_traders/screens/add_stock_form.dart';
+import 'package:stock_traders/screens/add_stock_form/view/add_stock_form.dart';
 import 'package:stock_traders/utils/app_utils.dart';
 
 class HomePage extends StatefulWidget {
@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
             child: Text(
               "Sign Out",
               style:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
             ),
           )
         ],
