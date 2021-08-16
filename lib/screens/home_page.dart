@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:stock_traders/app.dart';
+import 'package:stock_traders/authentication/services/auth.dart';
+import 'package:stock_traders/utils/app_utils.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -8,6 +11,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final Auth _auth = Auth();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +19,15 @@ class _HomePageState extends State<HomePage> {
         title: Text("Stock Traders"),
         actions: [
           TextButton(
-            onPressed: () {},
+            onPressed: () async {
+              try {
+                _auth.signOut();
+                showSnakBar(context, "User Signed Out!");
+                pushReplaceScreen(App(), context);
+              } catch (e) {
+                showSnakBar(context, e.toString());
+              }
+            },
             child: Text(
               "Sign Out",
               style:
