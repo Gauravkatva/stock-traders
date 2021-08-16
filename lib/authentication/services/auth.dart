@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 
 class Auth {
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -20,6 +21,22 @@ class Auth {
       return user;
     } catch (e) {
       throw Exception(e);
+    }
+  }
+
+  Future<void> signOut() async {
+    try {
+      await _firebaseAuth.signOut();
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<bool> isSignedIn() async {
+    if (_firebaseAuth.currentUser != null) {
+      return true;
+    } else {
+      return false;
     }
   }
 }
