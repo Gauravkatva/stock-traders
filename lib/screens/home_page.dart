@@ -4,6 +4,7 @@ import 'package:stock_traders/app.dart';
 import 'package:stock_traders/authentication/services/auth.dart';
 import 'package:stock_traders/screens/add_stock_form/models/stock_model.dart';
 import 'package:stock_traders/screens/add_stock_form/view/add_stock_form.dart';
+import 'package:stock_traders/screens/stock_page.dart';
 import 'package:stock_traders/utils/app_utils.dart';
 
 class HomePage extends StatefulWidget {
@@ -52,8 +53,17 @@ class _HomePageState extends State<HomePage> {
         itemBuilder: (context, index) {
           Stock stock = _stockList[index];
           return ListTile(
-            title: Text("${stock.createdBy}"),
-            subtitle: Text("${stock.cmp}"),
+            title: Text("${stock.symbol}"),
+            subtitle: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("Status: ${stock.tradeStatus}"),
+                Text("CMP: ${stock.cmp} INR"),
+              ],
+            ),
+            onTap: () {
+              pushScreen(StockPage(stock: stock), context);
+            },
           );
         },
         itemCount: _stockList.length,
