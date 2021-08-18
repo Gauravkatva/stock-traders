@@ -28,6 +28,11 @@ class _AddStockFormState extends State<AddStockForm> {
 
   final StockService _stockService = StockService();
 
+  double calculatePercentage(double value) {
+    double cmp = toDouble(currentMarketPriceController.text);
+    return ((value - cmp) / cmp) * 100;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +65,7 @@ class _AddStockFormState extends State<AddStockForm> {
                   controller: symbolController,
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.auto_graph),
-                    hintText: "Symbol",
+                    labelText: "Symbol",
                     border: OutlineInputBorder(),
                   ),
                   textInputAction: TextInputAction.next,
@@ -70,9 +75,12 @@ class _AddStockFormState extends State<AddStockForm> {
                 margin: const EdgeInsets.symmetric(vertical: 10),
                 child: TextField(
                   controller: currentMarketPriceController,
+                  onChanged: (value) {
+                    setState(() {});
+                  },
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.attach_money_sharp),
-                    hintText: "Current Market Price",
+                    labelText: "Current Market Price",
                     border: OutlineInputBorder(),
                   ),
                   textInputAction: TextInputAction.next,
@@ -83,10 +91,16 @@ class _AddStockFormState extends State<AddStockForm> {
                 margin: const EdgeInsets.symmetric(vertical: 10),
                 child: TextField(
                   controller: stopLossController,
+                  onChanged: (value) {
+                    setState(() {});
+                  },
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.attach_money_sharp),
-                    hintText: "Stop Loss",
+                    labelText: "Stop Loss",
                     border: OutlineInputBorder(),
+                    suffixText: stopLossController.text.isEmpty
+                        ? "0.0 %"
+                        : "${calculatePercentage(toDouble(stopLossController.text)).toStringAsFixed(2)}%",
                   ),
                   keyboardType: TextInputType.number,
                   textInputAction: TextInputAction.next,
@@ -95,12 +109,18 @@ class _AddStockFormState extends State<AddStockForm> {
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 10),
                 child: TextField(
+                  onChanged: (value) {
+                    setState(() {});
+                  },
                   controller: target1Controller,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.attach_money_sharp),
-                    hintText: "Target 1",
+                    labelText: "Target 1",
                     border: OutlineInputBorder(),
+                    suffixText: target1Controller.text.isEmpty
+                        ? "0.0 %"
+                        : "${calculatePercentage(toDouble(target1Controller.text)).toStringAsFixed(2)}%",
                   ),
                   textInputAction: TextInputAction.next,
                 ),
@@ -108,12 +128,18 @@ class _AddStockFormState extends State<AddStockForm> {
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 10),
                 child: TextField(
+                  onChanged: (value) {
+                    setState(() {});
+                  },
                   controller: target2Controller,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.attach_money_sharp),
-                    hintText: "Target 2",
+                    labelText: "Target 2",
                     border: OutlineInputBorder(),
+                    suffixText: target2Controller.text.isEmpty
+                        ? "0.0 %"
+                        : "${calculatePercentage(toDouble(target2Controller.text)).toStringAsFixed(2)}%",
                   ),
                   textInputAction: TextInputAction.next,
                 ),
@@ -121,12 +147,18 @@ class _AddStockFormState extends State<AddStockForm> {
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 10),
                 child: TextField(
+                  onChanged: (value) {
+                    setState(() {});
+                  },
                   controller: target3Controller,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.attach_money_sharp),
-                    hintText: "Target 3",
+                    labelText: "Target 3",
                     border: OutlineInputBorder(),
+                    suffixText: target3Controller.text.isEmpty
+                        ? "0.0 %"
+                        : "${calculatePercentage(toDouble(target3Controller.text)).toStringAsFixed(2)}%",
                   ),
                   textInputAction: TextInputAction.done,
                 ),

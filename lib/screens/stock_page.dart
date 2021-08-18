@@ -25,6 +25,15 @@ class _StockPageState extends State<StockPage> {
           ),
         ),
         iconTheme: IconThemeData(color: Colors.black),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(
+              Icons.delete,
+              color: Colors.redAccent,
+            ),
+          ),
+        ],
       ),
       body: Column(),
       bottomNavigationBar: Row(
@@ -34,9 +43,11 @@ class _StockPageState extends State<StockPage> {
             height: 50,
             width: MediaQuery.of(context).size.width / 2,
             child: ElevatedButton(
+              style: ElevatedButton.styleFrom(primary: Colors.redAccent),
               onPressed: () {},
               child: Text(
-                "UPDATE",
+                "HIT STOP LOSS",
+                textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headline6!.copyWith(
                       color: Colors.white,
                     ),
@@ -47,10 +58,10 @@ class _StockPageState extends State<StockPage> {
             height: 50,
             width: MediaQuery.of(context).size.width / 2,
             child: ElevatedButton(
-              style: ElevatedButton.styleFrom(primary: Colors.red),
+              style: ElevatedButton.styleFrom(primary: Colors.green),
               onPressed: () {},
               child: Text(
-                "DELETE",
+                "HIT TARGET",
                 style: Theme.of(context).textTheme.headline6!.copyWith(
                       color: Colors.white,
                     ),
