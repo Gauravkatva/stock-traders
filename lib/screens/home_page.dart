@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:stock_traders/app.dart';
 import 'package:stock_traders/authentication/services/auth.dart';
+import 'package:stock_traders/screens/add_stock_form/models/stock_model.dart';
 import 'package:stock_traders/screens/add_stock_form/view/add_stock_form.dart';
 import 'package:stock_traders/utils/app_utils.dart';
 
@@ -15,6 +17,7 @@ class _HomePageState extends State<HomePage> {
   final Auth _auth = Auth();
   @override
   Widget build(BuildContext context) {
+    List _stockList = Provider.of<List<Stock>>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -44,6 +47,16 @@ class _HomePageState extends State<HomePage> {
             ),
           )
         ],
+      ),
+      body: ListView.builder(
+        itemBuilder: (context, index) {
+          Stock stock = _stockList[index];
+          return ListTile(
+            title: Text("${stock.createdBy}"),
+            subtitle: Text("${stock.cmp}"),
+          );
+        },
+        itemCount: _stockList.length,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

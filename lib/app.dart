@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:stock_traders/authentication/services/auth.dart';
+import 'package:stock_traders/screens/add_stock_form/models/stock_model.dart';
+import 'package:stock_traders/screens/add_stock_form/services/add_stock_service.dart';
 import 'package:stock_traders/screens/home_page.dart';
 import 'package:stock_traders/screens/splash_screen.dart';
 import 'authentication/login/view/login_page.dart';
@@ -13,6 +16,7 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   AppState state = AppState.splash;
+  final StockService _stockService = StockService();
   final Auth _auth = Auth();
 
   void _stateChange() async {
@@ -37,12 +41,16 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.indigo,
+    return StreamProvider<List<Stock>>(
+      create: (context) => _stockService.getStocks(),
+      initialData: [],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.indigo,
+        ),
+        home: _buildForState(),
       ),
-      home: _buildForState(),
     );
   }
 

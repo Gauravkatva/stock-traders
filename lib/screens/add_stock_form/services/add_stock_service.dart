@@ -1,13 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:stock_traders/authentication/services/auth.dart';
+import 'package:stock_traders/screens/add_stock_form/models/stock_model.dart';
 
 class StockService {
   CollectionReference _firestoreCollectionReference =
       FirebaseFirestore.instance.collection("trades");
 
-  Stream<QuerySnapshot> stockStreams() =>
-      _firestoreCollectionReference.snapshots();
+  Stream<List<Stock>> getStocks() {
+    return _firestoreCollectionReference.snapshots().map(
+        (event) => event.docs.map((e) => Stock.fromJson(e.data())).toList());
+  }
 
   Future<void> addStock(
       String exchange,
@@ -20,7 +22,7 @@ class StockService {
     try {
       _firestoreCollectionReference.add({
         'cmp': currentMarketPrice,
-        'createdAt': DateTime.now(),
+        'createdAt': Timestamp.now(),
         'createdBy': FirebaseAuth.instance.currentUser?.uid,
         'exchange': exchange,
         'sl': stopLoss,
