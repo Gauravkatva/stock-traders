@@ -23,14 +23,63 @@ class _AddStockFormState extends State<AddStockForm> {
   final TextEditingController target2Controller = TextEditingController();
   final TextEditingController target3Controller = TextEditingController();
   double toDouble(String value) {
-    return double.parse(value);
+    try {
+      return double.parse(value);
+    } catch (e) {
+      return 0.0;
+    }
   }
 
   final StockService _stockService = StockService();
 
   double calculatePercentage(double value) {
-    double cmp = toDouble(currentMarketPriceController.text);
-    return ((value - cmp) / cmp) * 100;
+    try {
+      double cmp = toDouble(currentMarketPriceController.text);
+      return ((value - cmp) / cmp) * 100;
+    } catch (e) {
+      return 0;
+    }
+  }
+
+  void _onFieldChanged(String value) {
+    setState(() {});
+  }
+
+  Widget textField({
+    TextEditingController? controller,
+    Function(String)? onChanged,
+    String? labelText,
+    bool showSuffixPercentage = false,
+    bool restrictSpecialChar = true,
+    TextInputType? keyboardType,
+    TextInputAction? textInputAction,
+    Icon prefixIcon = const Icon(Icons.attach_money_sharp),
+  }) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      child: TextField(
+        enableInteractiveSelection: false,
+        controller: controller,
+        onChanged: onChanged,
+        decoration: InputDecoration(
+          prefixIcon: prefixIcon,
+          labelText: labelText,
+          border: OutlineInputBorder(),
+          suffixText: showSuffixPercentage
+              ? (controller!.text.isEmpty
+                  ? "0.0 %"
+                  : "${calculatePercentage(toDouble(controller.text)).toStringAsFixed(2)}%")
+              : null,
+        ),
+        inputFormatters: restrictSpecialChar
+            ? <TextInputFormatter>[
+                FilteringTextInputFormatter.deny(RegExp("[-, , ,]")),
+              ]
+            : null,
+        keyboardType: keyboardType,
+        textInputAction: textInputAction,
+      ),
+    );
   }
 
   @override
@@ -56,112 +105,53 @@ class _AddStockFormState extends State<AddStockForm> {
               CustomSelector(
                 onChanged: (value) {
                   exchange = value;
-                  print(value);
                 },
               ),
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 10),
-                child: TextField(
-                  controller: symbolController,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.auto_graph),
-                    labelText: "Symbol",
-                    border: OutlineInputBorder(),
-                  ),
-                  textInputAction: TextInputAction.next,
-                ),
+              textField(
+                controller: symbolController,
+                labelText: "Symbol",
+                textInputAction: TextInputAction.next,
+                prefixIcon: Icon(Icons.auto_graph),
+                restrictSpecialChar: false,
               ),
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 10),
-                child: TextField(
-                  controller: currentMarketPriceController,
-                  onChanged: (value) {
-                    setState(() {});
-                  },
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.attach_money_sharp),
-                    labelText: "Current Market Price",
-                    border: OutlineInputBorder(),
-                  ),
-                  textInputAction: TextInputAction.next,
-                  keyboardType: TextInputType.number,
-                ),
+              textField(
+                controller: currentMarketPriceController,
+                onChanged: _onFieldChanged,
+                labelText: "Current Market Price",
+                textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.number,
               ),
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 10),
-                child: TextField(
-                  controller: stopLossController,
-                  onChanged: (value) {
-                    setState(() {});
-                  },
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.attach_money_sharp),
-                    labelText: "Stop Loss",
-                    border: OutlineInputBorder(),
-                    suffixText: stopLossController.text.isEmpty
-                        ? "0.0 %"
-                        : "${calculatePercentage(toDouble(stopLossController.text)).toStringAsFixed(2)}%",
-                  ),
-                  keyboardType: TextInputType.number,
-                  textInputAction: TextInputAction.next,
-                ),
+              textField(
+                controller: stopLossController,
+                onChanged: _onFieldChanged,
+                labelText: "Stop Loss",
+                textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.number,
+                showSuffixPercentage: true,
               ),
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 10),
-                child: TextField(
-                  onChanged: (value) {
-                    setState(() {});
-                  },
-                  controller: target1Controller,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.attach_money_sharp),
-                    labelText: "Target 1",
-                    border: OutlineInputBorder(),
-                    suffixText: target1Controller.text.isEmpty
-                        ? "0.0 %"
-                        : "${calculatePercentage(toDouble(target1Controller.text)).toStringAsFixed(2)}%",
-                  ),
-                  textInputAction: TextInputAction.next,
-                ),
+              textField(
+                controller: target1Controller,
+                onChanged: _onFieldChanged,
+                labelText: "Target 1",
+                textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.number,
+                showSuffixPercentage: true,
               ),
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 10),
-                child: TextField(
-                  onChanged: (value) {
-                    setState(() {});
-                  },
-                  controller: target2Controller,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.attach_money_sharp),
-                    labelText: "Target 2",
-                    border: OutlineInputBorder(),
-                    suffixText: target2Controller.text.isEmpty
-                        ? "0.0 %"
-                        : "${calculatePercentage(toDouble(target2Controller.text)).toStringAsFixed(2)}%",
-                  ),
-                  textInputAction: TextInputAction.next,
-                ),
+              textField(
+                controller: target2Controller,
+                onChanged: _onFieldChanged,
+                labelText: "Target 2",
+                textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.number,
+                showSuffixPercentage: true,
               ),
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 10),
-                child: TextField(
-                  onChanged: (value) {
-                    setState(() {});
-                  },
-                  controller: target3Controller,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.attach_money_sharp),
-                    labelText: "Target 3",
-                    border: OutlineInputBorder(),
-                    suffixText: target3Controller.text.isEmpty
-                        ? "0.0 %"
-                        : "${calculatePercentage(toDouble(target3Controller.text)).toStringAsFixed(2)}%",
-                  ),
-                  textInputAction: TextInputAction.done,
-                ),
+              textField(
+                controller: target3Controller,
+                onChanged: _onFieldChanged,
+                labelText: "Target 3",
+                textInputAction: TextInputAction.done,
+                keyboardType: TextInputType.number,
+                showSuffixPercentage: true,
               ),
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 10),
@@ -178,7 +168,7 @@ class _AddStockFormState extends State<AddStockForm> {
                               setState(() {
                                 pressed = true;
                               });
-                              _stockService.addStock(
+                              await _stockService.addStock(
                                   exchange,
                                   symbolController.text,
                                   toDouble(currentMarketPriceController.text),
