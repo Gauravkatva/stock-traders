@@ -109,7 +109,7 @@ class _AddStockFormState extends State<AddStockForm> {
               ),
               textField(
                 controller: symbolController,
-                labelText: "Symbol",
+                labelText: "Symbol *",
                 textInputAction: TextInputAction.next,
                 prefixIcon: Icon(Icons.auto_graph),
                 restrictSpecialChar: false,
@@ -117,14 +117,14 @@ class _AddStockFormState extends State<AddStockForm> {
               textField(
                 controller: currentMarketPriceController,
                 onChanged: _onFieldChanged,
-                labelText: "Current Market Price",
+                labelText: "Current Market Price *",
                 textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.number,
               ),
               textField(
                 controller: stopLossController,
                 onChanged: _onFieldChanged,
-                labelText: "Stop Loss",
+                labelText: "Stop Loss *",
                 textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.number,
                 showSuffixPercentage: true,
@@ -132,7 +132,7 @@ class _AddStockFormState extends State<AddStockForm> {
               textField(
                 controller: target1Controller,
                 onChanged: _onFieldChanged,
-                labelText: "Target 1",
+                labelText: "Target 1 *",
                 textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.number,
                 showSuffixPercentage: true,
@@ -161,9 +161,7 @@ class _AddStockFormState extends State<AddStockForm> {
                           if (symbolController.text.isNotEmpty &&
                               currentMarketPriceController.text.isNotEmpty &&
                               stopLossController.text.isNotEmpty &&
-                              target1Controller.text.isNotEmpty &&
-                              target2Controller.text.isNotEmpty &&
-                              target3Controller.text.isNotEmpty) {
+                              target1Controller.text.isNotEmpty) {
                             try {
                               setState(() {
                                 pressed = true;
@@ -186,7 +184,7 @@ class _AddStockFormState extends State<AddStockForm> {
                               });
                             }
                           } else {
-                            showSnakBar(context, "All fields are mandetory");
+                            showSnakBar(context, "Fields with * are mandetory");
                           }
                         }
                       : null,
