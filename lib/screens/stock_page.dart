@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:stock_traders/screens/add_stock_form/services/add_stock_service.dart';
 import 'package:stock_traders/utils/app_utils.dart';
-
+import 'package:share/share.dart';
 import 'add_stock_form/models/stock_model.dart';
 
 class StockPage extends StatefulWidget {
@@ -14,6 +14,10 @@ class StockPage extends StatefulWidget {
 }
 
 class _StockPageState extends State<StockPage> {
+  DateTime _triggeringDate = DateTime.now();
+  final StockService _stockService = StockService();
+  late double currentMarketPrice;
+  late String shareMessage;
   double toDouble(String value) {
     try {
       return double.parse(value);
@@ -22,9 +26,6 @@ class _StockPageState extends State<StockPage> {
     }
   }
 
-  late double currentMarketPrice;
-  DateTime _triggeringDate = DateTime.now();
-  final StockService _stockService = StockService();
   double calculatePercentage(double value) {
     try {
       double cmp = currentMarketPrice;
@@ -49,6 +50,8 @@ class _StockPageState extends State<StockPage> {
 
   void init() {
     currentMarketPrice = widget.stock.cmp!;
+    shareMessage =
+        "${widget.stock.symbol}\nCMP: ${widget.stock.cmp}\nTGT: ${widget.stock.target1}, ${widget.stock.target2}, ${widget.stock.target3}\nSL: ${widget.stock.sl}\n#BREAKOUT #sharing_is_caring #StockMarket #StocksInFocus #StocksToBuy #StocksToWatch";
   }
 
   @override
@@ -80,6 +83,11 @@ class _StockPageState extends State<StockPage> {
         ),
         iconTheme: IconThemeData(color: Colors.black),
         actions: [
+          IconButton(
+              onPressed: () {
+                Share.share(shareMessage);
+              },
+              icon: Icon(Icons.share)),
           IconButton(
             onPressed: () async {
               try {
