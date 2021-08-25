@@ -28,8 +28,32 @@ class _HomePageState extends State<HomePage> {
     return color;
   }
 
+  double toDouble(String value) {
+    try {
+      return double.parse(value);
+    } catch (e) {
+      return 0.0;
+    }
+  }
+
+  double calculatePercentage(double value, double cmp) {
+    try {
+      return ((value - cmp) / cmp) * 100;
+    } catch (e) {
+      return 0;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final profitStyle = Theme.of(context).textTheme.bodyText1!.copyWith(
+          color: Colors.green,
+          fontWeight: FontWeight.bold,
+        );
+    final lossStyle = Theme.of(context).textTheme.bodyText1!.copyWith(
+          color: Colors.red,
+          fontWeight: FontWeight.bold,
+        );
     List _stockList = Provider.of<List<Stock>>(context);
     return Scaffold(
       appBar: AppBar(
@@ -79,24 +103,66 @@ class _HomePageState extends State<HomePage> {
                               .headline4!
                               .copyWith(color: Colors.black),
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              "CMP: ${stock.cmp}",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .copyWith(color: Colors.black),
-                            ),
-                            Text(
-                              "Stop Loss: ${stock.sl}",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .copyWith(color: Colors.black),
-                            ),
-                          ],
+                        Container(
+                          width: MediaQuery.of(context).size.width / 2.8,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "CMP: ${stock.cmp}",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .copyWith(color: Colors.black),
+                              ),
+                              Row(
+                                // mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    "SL: ${stock.sl}",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1!
+                                        .copyWith(color: Colors.black),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    "${calculatePercentage(stock.sl!, stock.cmp!).toStringAsFixed(2)} %",
+                                    style: calculatePercentage(
+                                                stock.sl!, stock.cmp!) >=
+                                            0
+                                        ? profitStyle
+                                        : lossStyle,
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                // mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    "TG1: ${stock.target1}",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1!
+                                        .copyWith(color: Colors.black),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    "${calculatePercentage(stock.target1!, stock.target1!).toStringAsFixed(2)} %",
+                                    style: calculatePercentage(
+                                                stock.target1!, stock.cmp!) >=
+                                            0
+                                        ? profitStyle
+                                        : lossStyle,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
