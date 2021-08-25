@@ -6,6 +6,7 @@ part 'stock_model.g.dart';
 @JsonSerializable(explicitToJson: true)
 class Stock {
   Stock({
+    this.documentId,
     this.cmp,
     this.createdAt,
     this.createdBy,
@@ -18,6 +19,7 @@ class Stock {
     this.tradeStatus,
     this.triggeredAt,
   });
+  final String? documentId;
   final double? cmp;
   final Timestamp? createdAt;
   final String? createdBy;

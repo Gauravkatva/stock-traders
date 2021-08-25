@@ -11,6 +11,36 @@ class StockService {
         (event) => event.docs.map((e) => Stock.fromJson(e.data())).toList());
   }
 
+  Future<void> hitTarget(Timestamp time, String documentId) async {
+    try {
+      await _firestoreCollectionReference.doc(documentId).update({
+        "tradeStatus": "SUCCESS",
+        "triggeredAt": time,
+      });
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<void> hitStopLoss(Timestamp time, String documentId) async {
+    try {
+      await _firestoreCollectionReference.doc(documentId).update({
+        "tradeStatus": "FAILURE",
+        "triggeredAt": time,
+      });
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<void> deleteStock(String documentId) async {
+    try {
+      await _firestoreCollectionReference.doc(documentId).delete();
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
   Future<void> addStock(
       String exchange,
       String symbol,
@@ -20,7 +50,7 @@ class StockService {
       double target2,
       double target3) async {
     try {
-      _firestoreCollectionReference.add({
+      await _firestoreCollectionReference.add({
         'cmp': currentMarketPrice,
         'createdAt': Timestamp.now(),
         'createdBy': FirebaseAuth.instance.currentUser?.uid,
@@ -32,7 +62,7 @@ class StockService {
         'target3': target3,
         'tradeStatus': "ONGOING",
         'triggeredAt': null,
-      });
+      }).then((value) => value.update({'documentId': value.id}));
     } catch (e) {
       throw Exception(e);
     }

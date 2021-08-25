@@ -8,6 +8,7 @@ part of 'stock_model.dart';
 
 Stock _$StockFromJson(Map<String, dynamic> json) {
   return Stock(
+    documentId: json['documentId'] as String?,
     cmp: (json['cmp'] as num?)?.toDouble(),
     createdAt: json['createdAt'] == null ? null : json['createdAt'],
     createdBy: json['createdBy'] as String?,
@@ -23,6 +24,7 @@ Stock _$StockFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$StockToJson(Stock instance) => <String, dynamic>{
+      'documentId': instance.documentId,
       'cmp': instance.cmp,
       'createdAt': instance.createdAt,
       'createdBy': instance.createdBy,

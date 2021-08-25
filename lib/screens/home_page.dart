@@ -61,60 +61,66 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
-      body: ListView.builder(
-        itemBuilder: (context, index) {
-          Stock stock = _stockList[index];
-          return Container(
-            margin: EdgeInsets.only(bottom: 4),
-            child: ListTile(
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "${stock.symbol}",
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline4!
-                        .copyWith(color: Colors.black),
+      body: _stockList.isNotEmpty
+          ? ListView.builder(
+              itemBuilder: (context, index) {
+                Stock stock = _stockList[index];
+                return Container(
+                  margin: EdgeInsets.only(bottom: 4),
+                  child: ListTile(
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "${stock.symbol}",
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline4!
+                              .copyWith(color: Colors.black),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              "CMP: ${stock.cmp}",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .copyWith(color: Colors.black),
+                            ),
+                            Text(
+                              "Stop Loss: ${stock.sl}",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .copyWith(color: Colors.black),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    subtitle: Text(
+                      "Status: ${stock.tradeStatus}",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1!
+                          .copyWith(color: Colors.black),
+                    ),
+                    onTap: () {
+                      pushScreen(StockPage(stock: stock), context);
+                    },
+                    tileColor: _tileColor(stock.tradeStatus!),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        "CMP: ${stock.cmp}",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText1!
-                            .copyWith(color: Colors.black),
-                      ),
-                      Text(
-                        "Stop Loss: ${stock.sl}",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText1!
-                            .copyWith(color: Colors.black),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              subtitle: Text(
-                "Status: ${stock.tradeStatus}",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(color: Colors.black),
-              ),
-              onTap: () {
-                pushScreen(StockPage(stock: stock), context);
+                );
               },
-              tileColor: _tileColor(stock.tradeStatus!),
+              itemCount: _stockList.length,
+            )
+          : Center(
+              child: Container(
+                child: Text("Click on + button to add Stocks"),
+              ),
             ),
-          );
-        },
-        itemCount: _stockList.length,
-      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           pushScreen(AddStockForm(), context);
