@@ -8,7 +8,6 @@ class Stock {
   Stock({
     this.documentId,
     this.cmp,
-    this.createdAt,
     this.createdBy,
     this.exchange,
     this.sl,
@@ -17,6 +16,7 @@ class Stock {
     this.target2,
     this.target3,
     this.tradeStatus,
+    this.createdAt,
     this.triggeredAt,
   });
   final String? documentId;
