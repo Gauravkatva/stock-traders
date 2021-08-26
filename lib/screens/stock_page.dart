@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:stock_traders/screens/add_stock_form/models/nse/nse.dart';
 import 'package:stock_traders/screens/add_stock_form/services/add_stock_service.dart';
 import 'package:stock_traders/utils/app_utils.dart';
 import 'package:share/share.dart';
@@ -48,10 +49,13 @@ class _StockPageState extends State<StockPage> {
       });
   }
 
-  void init() {
+  String exchange = "Loading...";
+  void init() async {
+    exchange = await NSE.getNameFromSymbol(widget.stock.symbol!);
     currentMarketPrice = widget.stock.cmp!;
     shareMessage =
         "${widget.stock.symbol}\nCMP: ${widget.stock.cmp}\nTGT: ${widget.stock.target1}, ${widget.stock.target2}, ${widget.stock.target3}\nSL: ${widget.stock.sl}\n#BREAKOUT #sharing_is_caring #StockMarket #StocksInFocus #StocksToBuy #StocksToWatch";
+    setState(() {});
   }
 
   @override
@@ -153,6 +157,16 @@ class _StockPageState extends State<StockPage> {
             title: Text("Symbol"),
             subtitle: Text(
               "${widget.stock.symbol}",
+              style: Theme.of(context).textTheme.headline6!.copyWith(
+                    color: Colors.black,
+                    fontSize: 18,
+                  ),
+            ),
+          ),
+          ListTile(
+            title: Text("Exchange Name"),
+            subtitle: Text(
+              "$exchange",
               style: Theme.of(context).textTheme.headline6!.copyWith(
                     color: Colors.black,
                     fontSize: 18,

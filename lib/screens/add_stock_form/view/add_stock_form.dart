@@ -1,6 +1,6 @@
-import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:stock_traders/screens/add_stock_form/models/nse/nse.dart';
 import 'package:stock_traders/screens/add_stock_form/services/add_stock_service.dart';
 import 'package:stock_traders/screens/widgets/widgets.dart';
@@ -87,7 +87,7 @@ class _AddStockFormState extends State<AddStockForm> {
   late List<NSE> list;
 
   void init() async {
-    list = await NSE.getNSEData();
+    list = await NSE.getNSEData("");
   }
 
   @override
@@ -121,12 +121,39 @@ class _AddStockFormState extends State<AddStockForm> {
                   exchange = value;
                 },
               ),
-              textField(
-                controller: symbolController,
-                labelText: "Symbol *",
-                textInputAction: TextInputAction.next,
-                prefixIcon: Icon(Icons.auto_graph),
-                restrictSpecialChar: false,
+              // textField(
+              //   controller: symbolController,
+              //   labelText: "Symbol *",
+              //   textInputAction: TextInputAction.next,
+              //   prefixIcon: Icon(Icons.auto_graph),
+              //   restrictSpecialChar: false,
+              // ),
+              TypeAheadField(
+                textFieldConfiguration: TextFieldConfiguration(
+                  controller: symbolController,
+                  textInputAction: TextInputAction.next,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: "Symbol *",
+                    prefixIcon: Icon(Icons.auto_graph),
+                  ),
+                ),
+                suggestionsCallback: (pattern) async {
+                  return await NSE.getNSEData(pattern);
+                },
+                errorBuilder: (context, error) {
+                  return Text("No Data found with this Name :(");
+                },
+                itemBuilder: (context, NSE suggestion) {
+                  return ListTile(
+                    leading: Icon(Icons.auto_graph),
+                    title: Text(suggestion.symbol!),
+                    subtitle: Text(suggestion.name!),
+                  );
+                },
+                onSuggestionSelected: (NSE suggestion) {
+                  symbolController.text = suggestion.symbol!;
+                },
               ),
               textField(
                 controller: currentMarketPriceController,
