@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:flutter/services.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'nse.g.dart';
 
@@ -13,4 +16,10 @@ class NSE {
 
   factory NSE.fromJson(json) => _$NSEFromJson(json);
   toJson() => _$NSEToJson(this);
+
+  static Future<List<NSE>> getNSEData() async {
+    List jsonData = jsonDecode(await rootBundle.loadString('assets/nse.json'));
+    final List<NSE> list = jsonData.map((e) => NSE.fromJson(e)).toList();
+    return list;
+  }
 }

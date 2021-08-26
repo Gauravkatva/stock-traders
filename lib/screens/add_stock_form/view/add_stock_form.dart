@@ -1,5 +1,7 @@
+import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:stock_traders/screens/add_stock_form/models/nse/nse.dart';
 import 'package:stock_traders/screens/add_stock_form/services/add_stock_service.dart';
 import 'package:stock_traders/screens/widgets/widgets.dart';
 import 'package:stock_traders/utils/app_utils.dart';
@@ -80,6 +82,18 @@ class _AddStockFormState extends State<AddStockForm> {
         textInputAction: textInputAction,
       ),
     );
+  }
+
+  late List<NSE> list;
+
+  void init() async {
+    list = await NSE.getNSEData();
+  }
+
+  @override
+  void initState() {
+    init();
+    super.initState();
   }
 
   @override
