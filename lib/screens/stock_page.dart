@@ -4,12 +4,17 @@ import 'package:provider/provider.dart';
 import 'package:stock_traders/screens/add_stock_form/services/add_stock_service.dart';
 import 'package:stock_traders/utils/app_utils.dart';
 import 'package:share/share.dart';
-import 'package:stock_traders/utils/nse_provider.dart';
+import 'package:stock_traders/utils/providers/nse_provider.dart';
 import 'add_stock_form/models/stock_model.dart';
 
 class StockPage extends StatefulWidget {
   final Stock stock;
-  const StockPage({Key? key, required this.stock}) : super(key: key);
+  final bool canDelete;
+  const StockPage({
+    Key? key,
+    required this.stock,
+    required this.canDelete,
+  }) : super(key: key);
 
   @override
   _StockPageState createState() => _StockPageState();
@@ -92,21 +97,23 @@ class _StockPageState extends State<StockPage> {
                 Share.share(shareMessage);
               },
               icon: Icon(Icons.share)),
-          IconButton(
-            onPressed: () async {
-              try {
-                await _stockService.deleteStock(widget.stock.documentId!);
-                showSnakBar(context, "Stock Deleted Successfully!!!");
-                Navigator.pop(context);
-              } catch (e) {
-                showSnakBar(context, e.toString());
-              }
-            },
-            icon: Icon(
-              Icons.delete,
-              color: Colors.redAccent,
-            ),
-          ),
+          widget.canDelete
+              ? IconButton(
+                  onPressed: () async {
+                    try {
+                      await _stockService.deleteStock(widget.stock.documentId!);
+                      showSnakBar(context, "Stock Deleted Successfully!!!");
+                      Navigator.pop(context);
+                    } catch (e) {
+                      showSnakBar(context, e.toString());
+                    }
+                  },
+                  icon: Icon(
+                    Icons.delete,
+                    color: Colors.redAccent,
+                  ),
+                )
+              : Container(),
         ],
       ),
       body: ListView(
@@ -164,7 +171,7 @@ class _StockPageState extends State<StockPage> {
             ),
           ),
           ListTile(
-            title: Text("Exchange Name"),
+            title: Text("Stock Name"),
             subtitle: Text(
               "${getName(widget.stock.symbol!, nseNameList)}",
               style: Theme.of(context).textTheme.headline6!.copyWith(

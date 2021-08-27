@@ -5,7 +5,8 @@ import 'package:stock_traders/screens/add_stock_form/models/stock_model.dart';
 import 'package:stock_traders/screens/add_stock_form/services/add_stock_service.dart';
 import 'package:stock_traders/screens/home_page.dart';
 import 'package:stock_traders/screens/splash_screen.dart';
-import 'package:stock_traders/utils/nse_provider.dart';
+import 'package:stock_traders/utils/providers/nse_provider.dart';
+import 'package:stock_traders/utils/providers/user_provider.dart';
 import 'authentication/login/view/login_page.dart';
 
 enum AppState { splash, home, logIn }

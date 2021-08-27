@@ -39,7 +39,7 @@ class _SignupPageState extends State<SignupPage> {
               child: TextField(
                 controller: emailController,
                 decoration: InputDecoration(
-                  hintText: "Email",
+                  labelText: "Email",
                   border: OutlineInputBorder(),
                 ),
                 textInputAction: TextInputAction.next,
@@ -51,7 +51,7 @@ class _SignupPageState extends State<SignupPage> {
                 controller: passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
-                  hintText: "Password",
+                  labelText: "Password",
                   border: OutlineInputBorder(),
                 ),
               ),

@@ -6,7 +6,8 @@ import 'package:stock_traders/screens/add_stock_form/models/stock_model.dart';
 import 'package:stock_traders/screens/add_stock_form/view/add_stock_form.dart';
 import 'package:stock_traders/screens/stock_page.dart';
 import 'package:stock_traders/utils/app_utils.dart';
-import 'package:stock_traders/utils/nse_provider.dart';
+import 'package:stock_traders/utils/providers/nse_provider.dart';
+import 'package:stock_traders/utils/providers/user_provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -46,9 +47,18 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void initState() {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
+      Provider.of<UserProvider>(context, listen: false).initialiseUser();
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final nseProvider = Provider.of<NSEProvider>(context);
     final nseNameList = nseProvider.list;
+    final userProvider = Provider.of<UserProvider>(context);
     final profitStyle = Theme.of(context).textTheme.bodyText1!.copyWith(
           color: Colors.green,
           fontWeight: FontWeight.bold,
@@ -187,7 +197,12 @@ class _HomePageState extends State<HomePage> {
                           .copyWith(color: Colors.black),
                     ),
                     onTap: () {
-                      pushScreen(StockPage(stock: stock), context);
+                      pushScreen(
+                          StockPage(
+                            stock: stock,
+                            canDelete: stock.createdBy == userProvider.userId,
+                          ),
+                          context);
                     },
                     tileColor: _tileColor(stock.tradeStatus!),
                   ),

@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:provider/provider.dart';
-import 'package:stock_traders/utils/nse_provider.dart';
+import 'package:stock_traders/utils/providers/nse_provider.dart';
 part 'nse.g.dart';
 
 @JsonSerializable()
