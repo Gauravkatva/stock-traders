@@ -119,7 +119,7 @@ class _HomePageState extends State<HomePage> {
                           ],
                         ),
                         Container(
-                          width: MediaQuery.of(context).size.width / 2.8,
+                          width: MediaQuery.of(context).size.width / 2.6,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -165,7 +165,7 @@ class _HomePageState extends State<HomePage> {
                                     width: 10,
                                   ),
                                   Text(
-                                    "${calculatePercentage(stock.target1!, stock.target1!).toStringAsFixed(2)} %",
+                                    "${calculatePercentage(stock.target1!, stock.cmp!).toStringAsFixed(2)} %",
                                     style: calculatePercentage(
                                                 stock.target1!, stock.cmp!) >=
                                             0
