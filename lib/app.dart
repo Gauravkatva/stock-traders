@@ -5,6 +5,7 @@ import 'package:stock_traders/screens/add_stock_form/models/stock_model.dart';
 import 'package:stock_traders/screens/add_stock_form/services/add_stock_service.dart';
 import 'package:stock_traders/screens/home_page.dart';
 import 'package:stock_traders/screens/splash_screen.dart';
+import 'package:stock_traders/utils/nse_provider.dart';
 import 'authentication/login/view/login_page.dart';
 
 enum AppState { splash, home, logIn }
@@ -36,6 +37,9 @@ class _AppState extends State<App> {
   @override
   void initState() {
     _stateChange();
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
+      await Provider.of<NSEProvider>(context, listen: false).getAllNSEData();
+    });
     super.initState();
   }
 

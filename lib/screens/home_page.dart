@@ -6,6 +6,7 @@ import 'package:stock_traders/screens/add_stock_form/models/stock_model.dart';
 import 'package:stock_traders/screens/add_stock_form/view/add_stock_form.dart';
 import 'package:stock_traders/screens/stock_page.dart';
 import 'package:stock_traders/utils/app_utils.dart';
+import 'package:stock_traders/utils/nse_provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -46,6 +47,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final nseProvider = Provider.of<NSEProvider>(context);
+    final nseNameList = nseProvider.list;
     final profitStyle = Theme.of(context).textTheme.bodyText1!.copyWith(
           color: Colors.green,
           fontWeight: FontWeight.bold,
@@ -96,12 +99,24 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "${stock.symbol}",
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline4!
-                              .copyWith(color: Colors.black),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "${stock.symbol}",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline4!
+                                  .copyWith(color: Colors.black),
+                            ),
+                            Text(
+                              "${getName(stock.symbol!, nseNameList)}",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .copyWith(color: Colors.black),
+                            ),
+                          ],
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width / 2.8,
@@ -116,7 +131,6 @@ class _HomePageState extends State<HomePage> {
                                     .copyWith(color: Colors.black),
                               ),
                               Row(
-                                // mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Text(
                                     "SL: ${stock.sl}",
@@ -139,7 +153,6 @@ class _HomePageState extends State<HomePage> {
                                 ],
                               ),
                               Row(
-                                // mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Text(
                                     "TG1: ${stock.target1}",

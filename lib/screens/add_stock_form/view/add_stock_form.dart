@@ -84,18 +84,6 @@ class _AddStockFormState extends State<AddStockForm> {
     );
   }
 
-  late List<NSE> list;
-
-  void init() async {
-    list = await NSE.getNSEData("");
-  }
-
-  @override
-  void initState() {
-    init();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,13 +109,6 @@ class _AddStockFormState extends State<AddStockForm> {
                   exchange = value;
                 },
               ),
-              // textField(
-              //   controller: symbolController,
-              //   labelText: "Symbol *",
-              //   textInputAction: TextInputAction.next,
-              //   prefixIcon: Icon(Icons.auto_graph),
-              //   restrictSpecialChar: false,
-              // ),
               TypeAheadField(
                 textFieldConfiguration: TextFieldConfiguration(
                   controller: symbolController,
@@ -139,7 +120,7 @@ class _AddStockFormState extends State<AddStockForm> {
                   ),
                 ),
                 suggestionsCallback: (pattern) async {
-                  return await NSE.getNSEData(pattern);
+                  return await NSE.getNSEData(pattern, context);
                 },
                 errorBuilder: (context, error) {
                   return Text("No Data found with this Name :(");

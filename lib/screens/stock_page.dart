@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:stock_traders/screens/add_stock_form/models/nse/nse.dart';
+import 'package:provider/provider.dart';
 import 'package:stock_traders/screens/add_stock_form/services/add_stock_service.dart';
 import 'package:stock_traders/utils/app_utils.dart';
 import 'package:share/share.dart';
+import 'package:stock_traders/utils/nse_provider.dart';
 import 'add_stock_form/models/stock_model.dart';
 
 class StockPage extends StatefulWidget {
@@ -49,13 +50,10 @@ class _StockPageState extends State<StockPage> {
       });
   }
 
-  String exchange = "Loading...";
   void init() async {
-    exchange = await NSE.getNameFromSymbol(widget.stock.symbol!);
     currentMarketPrice = widget.stock.cmp!;
     shareMessage =
         "${widget.stock.symbol}\nCMP: ${widget.stock.cmp}\nTGT: ${widget.stock.target1}, ${widget.stock.target2}, ${widget.stock.target3}\nSL: ${widget.stock.sl}\n#BREAKOUT #sharing_is_caring #StockMarket #StocksInFocus #StocksToBuy #StocksToWatch";
-    setState(() {});
   }
 
   @override
@@ -66,6 +64,8 @@ class _StockPageState extends State<StockPage> {
 
   @override
   Widget build(BuildContext context) {
+    final nseProvider = Provider.of<NSEProvider>(context);
+    final nseNameList = nseProvider.list;
     final profitStyle = Theme.of(context).textTheme.bodyText1!.copyWith(
           color: Colors.green,
           fontWeight: FontWeight.bold,
@@ -166,7 +166,7 @@ class _StockPageState extends State<StockPage> {
           ListTile(
             title: Text("Exchange Name"),
             subtitle: Text(
-              "$exchange",
+              "${getName(widget.stock.symbol!, nseNameList)}",
               style: Theme.of(context).textTheme.headline6!.copyWith(
                     color: Colors.black,
                     fontSize: 18,
